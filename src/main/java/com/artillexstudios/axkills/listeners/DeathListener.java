@@ -70,6 +70,6 @@ public class DeathListener implements Listener {
         msg = msg.replace("%victim%", player.getName());
         msg = Utils.setPlaceholders(player, msg);
 
-        event.setDeathMessage(ColorUtils.format(msg));
+        event.deathMessage(ColorUtils.format(msg));
     }
 }
