@@ -6,7 +6,6 @@ import com.artillexstudios.axkills.config.impl.Config;
 import com.artillexstudios.axkills.listeners.DeathListener;
 import com.artillexstudios.axkills.utils.ColorUtils;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class AxKills extends JavaPlugin {
@@ -25,9 +24,6 @@ public final class AxKills extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-
-        int pluginId = 19561;
-        new Metrics(this, pluginId);
 
         abstractConfig = new Config();
         abstractConfig.setup();
