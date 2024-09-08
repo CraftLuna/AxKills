@@ -36,22 +36,22 @@ public class DeathListener implements Listener {
                             .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand())).build())
                     .replaceText(TextReplacementConfig.builder().matchLiteral("<helmet>")
                             .replacement(
-                                    killer.getInventory().getHelmet() == null ? Component.text("Yok.")
+                                    killer.getInventory().getHelmet() == null ? Component.text("Kafalık bulunmuyor")
                                             : Component.translatable(killer.getInventory().getHelmet())
                             ).build()
                     ).replaceText(TextReplacementConfig.builder().matchLiteral("<chestplate>")
                             .replacement(
-                                    killer.getInventory().getChestplate() == null ? Component.text("Yok.")
+                                    killer.getInventory().getChestplate() == null ? Component.text("Göğüslük bulunmuyor")
                                             : Component.translatable(killer.getInventory().getChestplate())
                             ).build()
                     ).replaceText(TextReplacementConfig.builder().matchLiteral("<leggings>")
                             .replacement(
-                                    killer.getInventory().getLeggings() == null ? Component.text("Yok.")
+                                    killer.getInventory().getLeggings() == null ? Component.text("Pantalon bulunmuyor")
                                             : Component.translatable(killer.getInventory().getLeggings())
                             ).build()
                     ).replaceText(TextReplacementConfig.builder().matchLiteral("<boots>")
                             .replacement(
-                                    killer.getInventory().getBoots() == null ? Component.text("Yok.")
+                                    killer.getInventory().getBoots() == null ? Component.text("Bot bulunmuyor")
                                             : Component.translatable(killer.getInventory().getBoots())
                             ).build()
                     );
