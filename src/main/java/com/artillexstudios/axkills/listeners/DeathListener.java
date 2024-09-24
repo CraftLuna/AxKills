@@ -5,8 +5,10 @@ import com.artillexstudios.axkills.utils.ItemUtils;
 import com.artillexstudios.axkills.utils.Placeholder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +18,7 @@ import static com.artillexstudios.axkills.AxKills.CONFIG;
 
 public class DeathListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(@NotNull PlayerDeathEvent event) {
         final Player player = event.getEntity();
 
@@ -64,14 +66,9 @@ public class DeathListener implements Listener {
                             .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand())).build());
 
             message = component.hoverEvent(hover);
-        } else if (event.getEntity().getLastDamageCause() != null && CONFIG.isString("death-messages." + event.getEntity().getLastDamageCause().getCause())) {
-            message = ColorUtils.colorLegacy(CONFIG.getString("death-messages." + event.getEntity().getLastDamageCause().getCause()),
-                    new Placeholder("<victim>", player.getName())
-            );
+            event.deathMessage(message);
         } else {
-            message = Component.empty();
+            event.deathMessage(null);
         }
-
-        event.deathMessage(message);
     }
 }
