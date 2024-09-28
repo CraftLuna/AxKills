@@ -6,6 +6,7 @@ import com.artillexstudios.axkills.utils.Placeholder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.artillexstudios.axkills.AxKills.CONFIG;
 
-
 public class DeathListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -23,9 +23,15 @@ public class DeathListener implements Listener {
         final Player player = event.getEntity();
 
         Component message;
+        final Player killer = player.getKiller();
 
-        if (player.getKiller() != null) {
-            final Player killer = player.getKiller();
+        if (killer != null && !killer.getName().equals(player.getName())) {
+            Material weapon = killer.getInventory().getItemInMainHand().getType();
+            if (weapon != Material.NETHERITE_SWORD && weapon != Material.DIAMOND_SWORD &&
+                    weapon != Material.NETHERITE_AXE && weapon != Material.DIAMOND_AXE) {
+                event.deathMessage(null);
+                return;
+            }
 
             Component hover = Component.join(Component.newline(), ColorUtils.colorLegacy(CONFIG.getStringList("death-messages.HOVER"),
                     new Placeholder("<attacker>", killer.getName()),
@@ -59,11 +65,11 @@ public class DeathListener implements Listener {
                     );
 
             Component component = ColorUtils.colorLegacy(CONFIG.getString("death-messages.KILLED"),
-                            new Placeholder("<attacker>", killer.getName()),
-                            new Placeholder("<victim>", player.getName()),
-                            new Placeholder("<health>", String.format("%.1f", killer.getHealth() / 2))
-                    ).replaceText(TextReplacementConfig.builder().matchLiteral("<item>")
-                            .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand())).build());
+                    new Placeholder("<attacker>", killer.getName()),
+                    new Placeholder("<victim>", player.getName()),
+                    new Placeholder("<health>", String.format("%.1f", killer.getHealth() / 2))
+            ).replaceText(TextReplacementConfig.builder().matchLiteral("<item>")
+                    .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand())).build());
 
             message = component.hoverEvent(hover);
             event.deathMessage(message);
