@@ -10,7 +10,9 @@ public class ItemUtils {
         if (itemStack == null || itemStack.getType().isAir()) {
             return Component.text(AxKills.CONFIG.getString("empty-hand-text"));
         }
-
+        if (itemStack.getItemMeta().hasDisplayName()) {
+            return itemStack.displayName();
+        }
         return Component.translatable(itemStack);
     }
 

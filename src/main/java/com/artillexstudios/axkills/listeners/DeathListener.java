@@ -73,6 +73,9 @@ public class DeathListener implements Listener {
 
             message = component.hoverEvent(hover);
             event.deathMessage(message);
+            Bukkit.getOnlinePlayers().stream()
+                    .filter(p -> p.hasPermission("axkills.see-message"))
+                    .forEach(p -> p.sendMessage(message));
         } else {
             event.deathMessage(null);
         }
