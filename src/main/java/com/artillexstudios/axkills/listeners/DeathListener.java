@@ -42,6 +42,8 @@ public class DeathListener implements Listener {
             hover = hover
                     .replaceText(TextReplacementConfig.builder().matchLiteral("<item>")
                             .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand())).build())
+                    .replaceText(TextReplacementConfig.builder().matchLiteral("<item_type>")
+                            .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand().getType(), true)).build())
                     .replaceText(TextReplacementConfig.builder().matchLiteral("<helmet>")
                             .replacement(
                                     killer.getInventory().getHelmet() == null ? Component.text("Kafalık bulunmuyor")
@@ -69,12 +71,14 @@ public class DeathListener implements Listener {
                     new Placeholder("<victim>", player.getName()),
                     new Placeholder("<health>", String.format("%.1f", killer.getHealth() / 2))
             ).replaceText(TextReplacementConfig.builder().matchLiteral("<item>")
-                    .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand())).build());
+                    .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand())).build()
+            ).replaceText(TextReplacementConfig.builder().matchLiteral("<item_type>")
+                    .replacement(ItemUtils.getReplacement(killer.getInventory().getItemInMainHand().getType(), true)).build());
 
             message = component.hoverEvent(hover);
             event.deathMessage(message);
             Bukkit.getOnlinePlayers().stream()
-                    .filter(p -> p.hasPermission("axkills.see-message"))
+                    .filter(p -> !p.hasPermission("axkills.see-message"))
                     .forEach(p -> p.sendMessage(message));
         } else {
             event.deathMessage(null);
